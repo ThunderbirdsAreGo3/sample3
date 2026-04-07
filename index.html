@@ -1,47 +1,69 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Three.js Basic Example</title>
-  <style>
-    body { margin: 0; overflow: hidden; }
-    canvas { display: block; }
-  </style>
-</head>
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
-  <script>
-    // シーン、カメラ、レンダラーを作成
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75, window.innerWidth / window.innerHeight, 0.1, 1000
-    );
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open CampusでAR展示</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fafafa;
+      }
+      model-viewer {
+        width: 100%;
+        height: 85vh;
+        background-color: #eeeeee;
+        --poster-color: transparent;
+      }
+      .footer {
+        padding: 15px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <model-viewer
+      src="assets/fnyuHouse1.glb"
+      ar
+      ar-modes="scene-viewer quick-look"
+      camera-controls
+      autoplay
+      poster="assets/posterr.webp"
+      shadow-intensity="1"
+      exposure="1"
+      environment-image="neutral"
+      alt="学生制作キャラクター"
+    >
+      <button
+        slot="ar-button"
+        style="
+          background-color: white;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          padding: 12px 20px;
+          font-size: 16px;
+          font-weight: bold;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        "
+      >
+        👋 ARではじめる
+      </button>
+    </model-viewer>
 
-    // ジオメトリとマテリアルで立方体作成
-    const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshNormalMaterial();
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    <div class="footer">
+      <p>指でモデルを動かせます。右上のボタンでAR起動！</p>
+    </div>
 
-    camera.position.z = 3;
-
-    // アニメーションループ
-    function animate() {
-      requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    }
-    animate();
-
-    window.addEventListener("resize", () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  </script>
-</body>
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"
+    ></script>
+  </body>
 </html>
