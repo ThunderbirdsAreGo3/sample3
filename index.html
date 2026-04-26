@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open Campus AR展示（音声付き）</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #fafafa;
+      }
+      model-viewer {
+        width: 100%;
+        height: 85vh;
+        background-color: #eeeeee;
+      }
+      .footer {
+        padding: 15px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <model-viewer
+      id="audio-model"
+      src="assets/fnyuHouse3.glb"
+      ar
+      ar-modes="scene-viewer quick-look"
+      camera-controls
+      autoplay
+      poster="assets/poster.webp"
+      shadow-intensity="1"
+      exposure="1"
+      environment-image="neutral"
+      alt="学生制作のキャラクター"
+    >
+      <button
+        slot="ar-button"
+        style="
+          background-color: white;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          position: absolute;
+          top: 16px;
+          right: 16px;
+          padding: 12px 20px;
+          font-size: 16px;
+          font-weight: bold;
+        "
+      >
+        👋 ARではじめる（音が出ます）
+      </button>
+    </model-viewer>
+
+    <audio id="bgm" src="assets/sound.mp3" loop></audio>
+
+    <div class="footer">
+      <p>ARボタンを押すとキャラクターと共に音が流れます。</p>
+    </div>
+
+    <script
+      type="module"
+      src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"
+    ></script>
+
+    <script>
+      const modelViewer = document.querySelector("#audio-model");
+      const audio = document.querySelector("#bgm");
+
+      // ARモードが開始（セッション開始）されたら音を再生する
+      modelViewer.addEventListener("ar-status", (event) => {
+        if (event.detail.status === "session-started") {
+          audio.play();
+        } else if (event.detail.status === "not-presenting") {
+          // ARを終了したら音を止める（必要に応じて）
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
+
+      // AR以外のブラウザ上（3D表示）でクリックした時にも音を鳴らしたい場合
+      // modelViewer.addEventListener('click', () => {
+      //     if (audio.paused) {
+      //         audio.play();
+      //     } else {
+      //         audio.pause();
+      //     }
+      // });
+    </script>
+  </body>
+</html>
