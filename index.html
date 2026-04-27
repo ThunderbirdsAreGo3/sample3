@@ -70,13 +70,13 @@
     <script>
       const modelViewer = document.querySelector("#audio-model");
       const audio = document.querySelector("#bgm");
-      const arButton = document.querySelector('button[slot="ar-button"]');
+      //const arButton = document.querySelector('button[slot="ar-button"]');
 
       // ボタンを押した瞬間にオーディオのコンテキストを有効化する
-      arButton.addEventListener("click", () => {
-        // 一度再生してすぐに一時停止、またはそのまま流すことでブラウザのブロックを解除
-        audio.play().catch((e) => console.error("Audio play failed:", e));
-      });
+      //arButton.addEventListener("click", () => {
+      // 一度再生してすぐに一時停止、またはそのまま流すことでブラウザのブロックを解除
+      //audio.play().catch((e) => console.error("Audio play failed:", e));
+      //});
       // ARモードが開始（セッション開始）されたら音を再生する
       modelViewer.addEventListener("ar-status", (event) => {
         if (event.detail.status === "session-started") {
